@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> Meu bem ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Meu bem ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
@@ -45,7 +45,7 @@ section {
 .fase-2 { background: #12141c; border: 8px solid #38ef7d; }
 .fase-3 { background: #080f1d; border: 8px solid #00d2ff; }
 .fase-4 { background: #ffdb15; color: #0a0b10; border: 8px solid #0a0b10; }
-.fase-5 { background: #0f051d; border: 8px solid #ff4757; }
+.fase-5 { background: #050508; border: 8px solid #ff4757; padding-top: 10px; }
 
 /* --- SUPER ANIMAÇÕES PIXEL ART --- */
 @keyframes piscarStart {
@@ -144,7 +144,6 @@ section {
 .btn-pixel:active {
   transform: translate(4px, 4px);
   box-shadow: 0px 0px 0px #000000;
-  animation: tremerBotao 0.2s infinite;
 }
 
 /* Blocos de Texto e Cards Pixelados */
@@ -209,14 +208,13 @@ section {
   font-size: 0.55rem;
   text-align: left;
   box-shadow: 4px 4px 0px #000000;
-
 }
 
 /* Border color overrides for list items */
 .item-1 { border-color: #ff4757; }
 .item-2 { border-color: #ff9f43; }
 .item-3 { border-color: #38ef7d; }
-.item-4 { border-color: #ffdb15; }
+.item-4 { border-color: #050508; }
 
 /* Setas de Pular Fase */
 .seta-pixel {
@@ -231,6 +229,65 @@ section {
 .seta-escura {
   color: #0a0b10;
 }
+
+/* --- INTERFACE E BOTÕES DO MINI GAME --- */
+#arena-jogo {
+  width: 100%;
+  max-width: 340px;
+  height: 240px;
+  background: #111218;
+  border: 6px solid #ff4757;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 6px 6px 0px #000000;
+  margin-bottom: 15px;
+}
+
+#player-batman {
+  font-size: 28px;
+  position: absolute;
+  bottom: 10px;
+  left: 140px;
+  transition: left 0.05s linear;
+}
+
+#coracao-luiza {
+  font-size: 22px;
+  position: absolute;
+  top: -30px;
+  left: 50px;
+}
+
+.hud-jogo {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 340px;
+  font-size: 0.52rem;
+  color: #ff4757;
+  margin-bottom: 8px;
+}
+
+.controles-mobile {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 10px;
+}
+
+.btn-controle {
+  background: #ff4757;
+  color: #fff;
+  border: 4px solid #fff;
+  box-shadow: 4px 4px 0px #000;
+  width: 70px;
+  height: 50px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+.btn-controle:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
 
 /* Chuva Customizada de Pixels */
 .pixel-solto {
@@ -259,16 +316,19 @@ footer {
 
 <body>
 
+  <audio id="musica-site" loop src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3"></audio>
+  <audio id="musica-jogo" loop src="https://assets.mixkit.co/music/preview/mixkit-game-level-music-611.mp3"></audio>
+
   <section class="fase-1">
     <div style="font-size: 45px; animation: flutuarPixel 2s infinite;">👾🎮</div>
     <h1 class="titulo-arcade"> ARTHUR & LUIZA <br><span style="color:#ffdb15;">LOVE QUEST</span></h1>
-    <p class="subtitulo-pixel">Há 9 meses você entrou na minha vida e transformou dias comuns em momentos especiais.</p>
+    <p class="subtitulo-pixel">Clique em qualquer botão para dar START nas músicas e carregar as fases!</p>
     
     <div class="menu-botoes">
-      <a href="#tela2" class="btn-pixel btn-fase2">[1] Ver Nosso Placar</a>
-      <a href="#tela3" class="btn-pixel btn-fase3">[2] Ler Minha Mensagem</a>
-      <a href="#tela4" class="btn-pixel btn-fase4">[3] Ver Conquistas</a>
-      <a href="#tela5" class="btn-pixel btn-fase5">[4] Trilha Sonora</a>
+      <a href="#tela2" class="btn-pixel btn-fase2" onclick="iniciarMusicaSite()">[1] Ver Nosso Placar</a>
+      <a href="#tela3" class="btn-pixel btn-fase3" onclick="iniciarMusicaSite()">[2] Ler Minha Mensagem</a>
+      <a href="#tela4" class="btn-pixel btn-fase4" onclick="iniciarMusicaSite()">[3] Ver Conquistas</a>
+      <a href="#tela5" class="btn-pixel btn-fase5" onclick="trocarParaMusicaJogo()">[4] JOGAR MINI-GAME</a>
     </div>
   </section>
 
@@ -306,20 +366,63 @@ footer {
       <div class="item-inventario item-3">💕 [LVL 3] PRIMEIRO ENCONTRO</div>
       <div class="item-inventario item-4">🦇 [MAX] 9 MESES DE SOMA </div>
     </div>
-    <a href="#tela5" class="seta-pixel seta-escura">👇 FINAL FASE</a>
+    <a href="#tela5" class="seta-pixel seta-escura" onclick="trocarParaMusicaJogo()">👇 JOGAR AGORA!</a>
   </section>
 
   <section class="fase-5" id="tela5">
-    <div class="bloco-pixel" style="border-color: #ff4757; margin-bottom: 30px;">
-      <h2 style="color: #ff4757; font-size: 0.75rem; margin-bottom: 12px;">🎵 BGM SOUNDTRACK</h2>
-      <p class="texto-pixel-card" style="text-align: center;">"Velha Infância" É A MÚSICA QUE ME FAZ PENSAR EM VOCÊ.</p>
+    <div class="hud-jogo">
+      <span id="txt-score">SCORE: 00</span>
+      <span style="animation: piscarStart 1s infinite;">LUIZA & ARTHUR</span>
+    </div>
+
+    <div id="arena-jogo">
+      <div id="coracao-luiza">❤️</div>
+      <div id="player-batman">🦇</div>
+    </div>
+
+    <div class="controles-mobile">
+      <button class="btn-controle" id="btn-esq">◀️</button>
+      <button class="btn-controle" id="btn-dir">▶️</button>
+    </div>
+
+    <div class="bloco-pixel" style="border-color: #ff4757; padding: 10px; margin-bottom: 15px; max-width: 340px;">
+      <h2 style="color: #ff4757; font-size: 0.55rem; margin-bottom: 5px;">🎵 BGM SOUNDTRACK</h2>
+      <p class="texto-pixel-card" style="text-align: center; font-size: 0.45rem;">"Velha Infância" É A MÚSICA QUE ME FAZ PENSAR EM VOCÊ.</p>
     </div>
     
     <footer>❤️ GAME OVER: LUIZA & ARTHUR ❤️</footer>
   </section>
 
 <script>
-// Contador Estilo Jogo Retro
+// Controle dos Elementos de Som
+const somSite = document.getElementById("musica-site");
+const somJogo = document.getElementById("musica-jogo");
+
+function iniciarMusicaSite() {
+  somJogo.pause();
+  somSite.play().catch(() => {});
+}
+
+function trocarParaMusicaJogo() {
+  somSite.pause();
+  somJogo.play().catch(() => {});
+}
+
+// Troca automática de trilha sonora conforme rola a tela
+window.addEventListener("scroll", () => {
+  const metadeTela = window.innerHeight / 2;
+  const topoFase5 = document.getElementById("tela5").getBoundingClientRect().top;
+  
+  if (topoFase5 <= metadeTela) {
+    trocarParaMusicaJogo();
+  } else {
+    if(!somSite.paused || !somJogo.paused) {
+      iniciarMusicaSite();
+    }
+  }
+});
+
+// Contador Estilo Jogo Retro Original
 const inicio = new Date("2025-08-30");
 function atualizar(){
   const agora = new Date();
@@ -329,25 +432,72 @@ function atualizar(){
 }
 atualizar();
 
-// Chuva Temática Totalmente Customizada e Muito Animada (Gira Itens Clássicos de Jogo)
+// Chuva Temática Dinâmica
 const iconesPixel = ["🦇", "🎵", "🎶", "❤️", "⭐", "👾"];
-
 function chuvaPixel(){
   const p = document.createElement("div");
   p.classList.add("pixel-solto");
   p.innerHTML = iconesPixel[Math.floor(Math.random() * iconesPixel.length)];
-  
   p.style.left = Math.random() * 100 + "vw";
-  p.style.animationDuration = (Math.random() * 2 + 3) + "s"; // Quedas bem dinâmicas e rápidas
-  
-  // Cores de Neon Retro para combinar com os enfeites
+  p.style.animationDuration = (Math.random() * 2 + 3) + "s";
   const coresArcade = ["#ffdb15", "#38ef7d", "#00d2ff", "#ff4757", "#ffffff"];
   p.style.color = coresArcade[Math.floor(Math.random() * coresArcade.length)];
-  
   document.body.appendChild(p);
   setTimeout(() => { p.remove(); }, 5000);
 }
-setInterval(chuvaPixel, 350); // Frequência rápida para ficar super enfeitado!
+setInterval(chuvaPixel, 350);
+
+// --- MECÂNICA E ENGINE DO MINI GAME ---
+let playerX = 140;
+let coracaoX = Math.random() * 270;
+let coracaoY = -30;
+let score = 0;
+
+const player = document.getElementById("player-batman");
+const coracao = document.getElementById("coracao-luiza");
+const txtScore = document.getElementById("txt-score");
+
+// Controles Móveis (Touch e Clique)
+document.getElementById("btn-esq").addEventListener("touchstart", (e) => { e.preventDefault(); mover(-25); });
+document.getElementById("btn-dir").addEventListener("touchstart", (e) => { e.preventDefault(); mover(25); });
+document.getElementById("btn-esq").addEventListener("click", () => mover(-25));
+document.getElementById("btn-dir").addEventListener("click", () => mover(25));
+
+function mover(dir) {
+  playerX += dir;
+  if(playerX < 0) playerX = 0;
+  if(playerX > 290) playerX = 290;
+  player.style.left = playerX + "px";
+}
+
+// Loop de Processamento do Jogo
+function gameLoop() {
+  coracaoY += 4; // Gravidade/Velocidade da queda
+  if(coracaoY > 240) {
+    resetCoracao();
+  }
+  
+  // Colisão de Caixas de Pixels (Batman captura Coração)
+  if(coracaoY >= 180 && coracaoY <= 210) {
+    if(Math.abs(coracaoX - playerX) < 30) {
+      score++;
+      txtScore.innerHTML = "SCORE: " + (score < 10 ? "0" + score : score);
+      resetCoracao();
+    }
+  }
+  
+  coracao.style.top = coracaoY + "px";
+  coracao.style.left = coracaoX + "px";
+  requestAnimationFrame(gameLoop);
+}
+
+function resetCoracao() {
+  coracaoY = -30;
+  coracaoX = Math.random() * 270;
+}
+
+// Inicializa a Engine do Jogo
+gameLoop();
 </script>
 
 </body>
