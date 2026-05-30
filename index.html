@@ -13,7 +13,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Press Start 2P', monospace, sans-serif; /* Forçando tudo em Pixel */
+  font-family: 'Press Start 2P', monospace, sans-serif;
 }
 
 html, body {
@@ -23,7 +23,7 @@ html, body {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   height: 100vh;
-  image-rendering: pixelated; /* Efeito que deixa imagens e bordas pixeladas */
+  image-rendering: pixelated;
 }
 
 /* Telas em formato de Fases de Jogo */
@@ -126,6 +126,15 @@ section {
   cursor: pointer;
 }
 
+.btn-start-jogo {
+  background: #ffdb15;
+  color: #000;
+  border-color: #fff;
+  font-size: 0.8rem;
+  padding: 16px;
+  animation: piscarStart 0.8s infinite alternate;
+}
+
 /* Cores vibrantes individuais para cada botão */
 .btn-fase2 { border-color: #38ef7d; color: #38ef7d; }
 .btn-fase3 { border-color: #00d2ff; color: #00d2ff; }
@@ -201,7 +210,6 @@ section {
   box-shadow: 4px 4px 0px #000000;
 }
 
-/* Border color overrides for list items */
 .item-1 { border-color: #ff4757; }
 .item-2 { border-color: #ff9f43; }
 .item-3 { border-color: #38ef7d; }
@@ -232,7 +240,6 @@ section {
   overflow: hidden;
   box-shadow: 6px 6px 0px #000000;
   margin-bottom: 15px;
-  /* Fundo de Cidade Retrô/Gotham desenhado em Gradiente */
   background-image: 
     linear-gradient(to top, rgba(20, 24, 43, 0.95) 25px, transparent 25px),
     linear-gradient(90deg, transparent 40px, #1c2035 40px, #1c2035 85px, transparent 85px),
@@ -291,13 +298,22 @@ section {
 }
 .btn-controle:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px #000; }
 
-/* Chuva Customizada de Pixels */
-.pixel-solto {
+/* Contêiner isolado para a chuva de emojis */
+#container-chuva-emojis {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.pixel-solto {
+  position: absolute;
   top: -20px;
   pointer-events: none;
   animation: quedaPixel linear forwards;
-  z-index: 999;
   font-size: 14px;
 }
 
@@ -314,7 +330,6 @@ footer {
   box-shadow: 4px 4px 0px #000000;
 }
 
-/* Esconder os players do YouTube na tela */
 .yt-invisivel {
   position: absolute;
   width: 1px;
@@ -327,20 +342,24 @@ footer {
 
 <body>
 
+  <div id="container-chuva-emojis"></div>
+
   <div id="player-site-container" class="yt-invisivel"></div>
   <div id="player-jogo-container" class="yt-invisivel"></div>
 
   <section class="fase-1">
     <div style="font-size: 45px; animation: flutuarPixel 2s infinite;">👾🎮</div>
     <h1 class="titulo-arcade"> ARTHUR & LUIZA <br><span style="color:#ffdb15;">LOVE QUEST</span></h1>
-    <p class="subtitulo-pixel">Clique em qualquer botão para dar START nas músicas e carregar as fases!</p>
     
-    <div class="menu-botoes">
+    <div class="menu-botoes" id="menu-inicial" style="display: none;">
       <a href="#tela2" class="btn-pixel btn-fase2" onclick="iniciarMusicaSite()">[1] Ver Nosso Placar</a>
       <a href="#tela3" class="btn-pixel btn-fase3" onclick="iniciarMusicaSite()">[2] Ler Minha Mensagem</a>
       <a href="#tela4" class="btn-pixel btn-fase4" onclick="iniciarMusicaSite()">[3] Ver Conquistas</a>
       <a href="#tela5" class="btn-pixel btn-fase5" onclick="trocarParaMusicaJogo()">[4] JOGAR MINI-GAME</a>
     </div>
+
+    <button id="btn-start-obrigatorio" class="btn-pixel btn-start-jogo" onclick="liberarAudioEIniciar()">CLICK TO START 🕹️</button>
+    <p class="subtitulo-pixel" style="margin-top:15px;">Clique no botão acima para ligar a música oficial!</p>
   </section>
 
   <section class="fase-2" id="tela2">
@@ -407,23 +426,35 @@ footer {
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-// Controle dos Elementos de Som
 let playerSite;
 let playerJogo;
 let apiPronta = false;
-let noJogo = false; // Controla se o usuário está na última tela
+let exibindoEmojis = true;
 
 function onYouTubeIframeAPIReady() {
   playerSite = new YT.Player('player-site-container', {
     videoId: 'Oms_v7vU_6Q', 
-    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'Oms_v7vU_6Q', 'controls': 0 },
+    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'Oms_v7vU_6Q', 'controls': 0, 'mute': 0 },
     events: { 'onReady': () => { apiPronta = true; } }
   });
 
   playerJogo = new YT.Player('player-jogo-container', {
     videoId: 'M6M6N7m4q00', 
-    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'M6M6N7m4q00', 'controls': 0 }
+    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'M6M6N7m4q00', 'controls': 0, 'mute': 0 }
   });
+}
+
+// Ativação forçada no clique do botão de Start
+function liberarAudioEIniciar() {
+  document.getElementById("btn-start-obrigatorio").style.display = "none";
+  document.getElementById("menu-inicial").style.display = "grid";
+  
+  if (apiPronta && playerSite && playerSite.playVideo) {
+    playerSite.playVideo();
+  }
+  
+  // Rola suavemente para a segunda fase automaticamente
+  window.location.hash = "tela2";
 }
 
 function iniciarMusicaSite() {
@@ -440,19 +471,21 @@ function trocarParaMusicaJogo() {
   }
 }
 
-// Troca automática de som e desligamento da chuva de emojis ao rolar
-window.addEventListener("scroll", () => {
-  const metadeTela = window.innerHeight / 2;
-  const topoFase5 = document.getElementById("tela5").getBoundingClientRect().top;
-  
-  if (topoFase5 <= metadeTela) {
-    noJogo = true; // Desliga os emojis caindo
-    if (apiPronta) trocarParaMusicaJogo();
-  } else {
-    noJogo = false; // Ativa os emojis novamente nas outras telas
-    if (apiPronta && (!playerSite.paused || !playerJogo.paused)) iniciarMusicaSite();
-  }
-});
+// Sistema de monitoramento preciso usando IntersectionObserver (Sem bugs de rolagem)
+const observerFase5 = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      exibindoEmojis = false; // Desliga a criação de emojis
+      document.getElementById("container-chuva-emojis").innerHTML = ""; // Limpa a tela na hora!
+      if (apiPronta) trocarParaMusicaJogo();
+    } else {
+      exibindoEmojis = true; // Reativa os emojis se voltar para cima
+      if (apiPronta) iniciarMusicaSite();
+    }
+  });
+}, { threshold: 0.3 });
+
+observerFase5.observe(document.getElementById("tela5"));
 
 // Contador Estilo Jogo Retro Original
 const inicio = new Date("2025-08-30");
@@ -464,10 +497,12 @@ function atualizar(){
 }
 atualizar();
 
-// Chuva Temática Dinâmica (Interrompida na tela do mini-game)
+// Chuva Temática Controlada pelo Novo Sistema Seguro
 const iconesPixel = ["🦇", "🎵", "🎶", "❤️", "⭐", "👾"];
+const containerChuva = document.getElementById("container-chuva-emojis");
+
 function chuvaPixel(){
-  if (noJogo) return; // Se estiver na tela do jogo, não cria emojis novos caindo!
+  if (!exibindoEmojis) return; 
   
   const p = document.createElement("div");
   p.classList.add("pixel-solto");
@@ -476,12 +511,12 @@ function chuvaPixel(){
   p.style.animationDuration = (Math.random() * 2 + 3) + "s";
   const coresArcade = ["#ffdb15", "#38ef7d", "#00d2ff", "#ff4757", "#ffffff"];
   p.style.color = coresArcade[Math.floor(Math.random() * coresArcade.length)];
-  document.body.appendChild(p);
+  containerChuva.appendChild(p);
   setTimeout(() => { p.remove(); }, 5000);
 }
 setInterval(chuvaPixel, 350);
 
-// --- MECÂNICA E ENGINE DO MINI GAME ---
+// --- MECÂNICA DO MINI GAME ---
 let playerX = 140;
 let coracaoX = Math.random() * 270;
 let coracaoY = -30;
@@ -491,7 +526,6 @@ const player = document.getElementById("player-batman");
 const coracao = document.getElementById("coracao-luiza");
 const txtScore = document.getElementById("txt-score");
 
-// Controles Móveis (Touch e Clique)
 document.getElementById("btn-esq").addEventListener("touchstart", (e) => { e.preventDefault(); mover(-25); });
 document.getElementById("btn-dir").addEventListener("touchstart", (e) => { e.preventDefault(); mover(25); });
 document.getElementById("btn-esq").addEventListener("click", () => mover(-25));
@@ -504,14 +538,12 @@ function mover(dir) {
   player.style.left = playerX + "px";
 }
 
-// Loop de Processamento do Jogo
 function gameLoop() {
-  coracaoY += 4; // Velocidade da queda do coração
+  coracaoY += 4;
   if(coracaoY > 240) {
     resetCoracao();
   }
   
-  // Colisão: Menino captura Coração
   if(coracaoY >= 180 && coracaoY <= 210) {
     if(Math.abs(coracaoX - playerX) < 30) {
       score++;
@@ -530,9 +562,9 @@ function resetCoracao() {
   coracaoX = Math.random() * 270;
 }
 
-// Inicializa a Engine do Jogo
 gameLoop();
 </script>
 
 </body>
-</html>
+  </html>
+  
