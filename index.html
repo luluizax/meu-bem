@@ -24,6 +24,7 @@ html, body {
   overflow-y: scroll;
   height: 100vh;
   image-rendering: pixelated;
+  overflow-x: hidden;
 }
 
 /* Telas em formato de Fases de Jogo */
@@ -66,6 +67,17 @@ section {
   100% { transform: scale(1); }
 }
 
+@keyframes moverNuvem {
+  from { transform: translateX(340px); }
+  to { transform: translateX(-60px); }
+}
+
+@keyframes coletarEfeito {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.4); filter: brightness(1.8); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
 /* Títulos Estilo Arcade */
 .titulo-arcade {
   font-size: 1.4rem;
@@ -74,6 +86,13 @@ section {
   text-align: center;
   margin-bottom: 20px;
   line-height: 1.4;
+}
+
+@media(min-width: 768px) {
+  .titulo-arcade { font-size: 2.2rem; }
+  .titulo-arcade-escuro { font-size: 2rem !important; }
+  .texto-pixel-card { font-size: 0.8rem !important; }
+  .subtitulo-pixel { font-size: 0.9rem !important; }
 }
 
 .titulo-arcade-escuro {
@@ -135,6 +154,15 @@ section {
   animation: piscarStart 0.8s infinite alternate;
 }
 
+/* Efeito de Loading do Jogo */
+.loading-texto {
+  font-size: 0.8rem;
+  color: #38ef7d;
+  text-shadow: 2px 2px #000;
+  animation: piscarStart 0.4s infinite;
+  margin-top: 20px;
+}
+
 /* Cores vibrantes individuais para cada botão */
 .btn-fase2 { border-color: #38ef7d; color: #38ef7d; }
 .btn-fase3 { border-color: #00d2ff; color: #00d2ff; }
@@ -150,7 +178,7 @@ section {
 .bloco-pixel {
   background: #14161f;
   width: 100%;
-  max-width: 360px;
+  max-width: 450px;
   padding: 24px 16px;
   border: 6px solid #ffdb15;
   box-shadow: 6px 6px 0px #000000;
@@ -167,8 +195,8 @@ section {
 
 /* Foto com Moldura de Bloco de Console Retrô */
 .foto-pixel-moldura {
-  width: 160px;
-  height: 160px;
+  width: 180px;
+  height: 180px;
   border: 6px dashed #38ef7d;
   box-shadow: 6px 6px 0px #000000;
   overflow: hidden;
@@ -208,6 +236,7 @@ section {
   font-size: 0.55rem;
   text-align: left;
   box-shadow: 4px 4px 0px #000000;
+  width: 100%;
 }
 
 .item-1 { border-color: #ff4757; }
@@ -229,49 +258,67 @@ section {
   color: #0a0b10;
 }
 
-/* --- INTERFACE E DESIGN DA ARENA DO MINI GAME --- */
+/* --- INTERFACE E DESIGN DA ARENA DO MINI GAME MELHORADO --- */
 #arena-jogo {
   width: 100%;
-  max-width: 340px;
-  height: 240px;
-  background: #0a0c16;
+  max-width: 400px;
+  height: 280px;
+  background: #060919;
   border: 6px solid #ff4757;
   position: relative;
   overflow: hidden;
   box-shadow: 6px 6px 0px #000000;
   margin-bottom: 15px;
+  
+  /* Background Neon de Gotham City à Noite e Estrelas */
   background-image: 
-    linear-gradient(to top, rgba(20, 24, 43, 0.95) 25px, transparent 25px),
-    linear-gradient(90deg, transparent 40px, #1c2035 40px, #1c2035 85px, transparent 85px),
-    linear-gradient(90deg, transparent 120px, #151828 120px, #151828 180px, transparent 180px),
-    linear-gradient(90deg, transparent 220px, #1c2035 220px, #1c2035 280px, transparent 280px),
-    radial-gradient(circle at 40px 40px, #fff 2px, transparent 3px),
-    radial-gradient(circle at 180px 70px, #fff 2px, transparent 3px),
-    radial-gradient(circle at 280px 30px, #fff 1px, transparent 2px);
+    linear-gradient(to top, #0b0f26 35px, transparent 35px),
+    linear-gradient(90deg, transparent 30px, #1a1e36 30px, #1a1e36 80px, transparent 80px),
+    linear-gradient(90deg, transparent 140px, #121528 140px, #121528 210px, transparent 210px),
+    linear-gradient(90deg, transparent 260px, #1a1e36 260px, #1a1e36 330px, transparent 330px),
+    radial-gradient(circle at 60px 50px, #ffdb15 12px, transparent 13px), /* Lua Charmosa */
+    radial-gradient(circle at 180px 80px, #fff 2px, transparent 3px),
+    radial-gradient(circle at 320px 40px, #fff 2px, transparent 3px);
+}
+
+/* Nuvem flutuante decorativa de fundo */
+.nuvem-retro {
+  position: absolute;
+  top: 60px;
+  font-size: 20px;
+  opacity: 0.25;
+  animation: moverNuvem 12s linear infinite;
+  pointer-events: none;
 }
 
 #player-batman {
-  font-size: 28px;
+  font-size: 32px;
   position: absolute;
-  bottom: 12px;
-  left: 140px;
-  transition: left 0.05s linear;
+  bottom: 28px;
+  left: 170px;
+  /* Movimento Suave via CSS Transition */
+  transition: left 0.08s ease-out;
   z-index: 10;
 }
 
 #coracao-luiza {
-  font-size: 22px;
+  font-size: 24px;
   position: absolute;
   top: -30px;
   left: 50px;
   z-index: 10;
 }
 
+/* Classe aplicada via JS ao capturar um coração */
+.captura-anim {
+  animation: coletarEfeito 0.2s ease-out;
+}
+
 .hud-jogo {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 340px;
+  max-width: 400px;
   font-size: 0.52rem;
   color: #ff4757;
   margin-bottom: 8px;
@@ -283,14 +330,28 @@ section {
   margin-bottom: 10px;
 }
 
+/* Desativa os botões físicos se estiver jogando no PC */
+@media(min-width: 1024px) {
+  .controles-mobile { display: none !important; }
+  .dica-teclado { display: block !important; }
+}
+
+.dica-teclado {
+  display: none;
+  font-size: 0.5rem;
+  color: #38ef7d;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
 .btn-controle {
   background: #ff4757;
   color: #fff;
   border: 4px solid #fff;
   box-shadow: 4px 4px 0px #000;
-  width: 70px;
-  height: 50px;
-  font-size: 1.2rem;
+  width: 75px;
+  height: 55px;
+  font-size: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -358,8 +419,11 @@ footer {
       <a href="#tela5" class="btn-pixel btn-fase5" onclick="trocarParaMusicaJogo()">[4] JOGAR MINI-GAME</a>
     </div>
 
-    <button id="btn-start-obrigatorio" class="btn-pixel btn-start-jogo" onclick="liberarAudioEIniciar()">CLICK TO START 🕹️</button>
-    <p class="subtitulo-pixel" style="margin-top:15px;">Clique no botão acima para ligar a música oficial!</p>
+    <button id="btn-start-obrigatorio" class="btn-pixel btn-start-jogo" onclick="liberarAudioEIniciar()">CLICK TO START 🕹></button>
+    
+    <div id="loading-container" style="display: none;" class="loading-texto">LOADING FASE 1...</div>
+    
+    <p id="subtitulo-ajuda" class="subtitulo-pixel" style="margin-top:15px;">Suporta Setas do Teclado (← / →) no Computador!</p>
   </section>
 
   <section class="fase-2" id="tela2">
@@ -380,7 +444,7 @@ footer {
         <br><br>
         Meu coração encontrou em você um lugar onde se sente em casa.
         <br><br>
-        E se eu pudesse escolher novamente, escolheria você. ❤️
+        E se eu pudesse escolher novamente, escolheria você. ❤
       </p>
     </div>
     <a href="#tela4" class="seta-pixel" style="color: #00d2ff;">👇 NEXT FASE</a>
@@ -390,8 +454,8 @@ footer {
     <h1 class="titulo-arcade-escuro">🏆 ITEMS UNLOCKED</h1>
     <p class="subtitulo-pixel-escuro">Coleção Completa de Conquistas de Amor!</p>
     
-    <div style="width: 100%; max-width: 350px;">
-      <div class="item-inventario item-1">❤️ [LVL 1] PRIMEIRO BEIJO</div>
+    <div style="width: 100%; max-width: 400px;">
+      <div class="item-inventario item-1">❤ [LVL 1] PRIMEIRO BEIJO</div>
       <div class="item-inventario item-2">📸 [LVL 2] PRIMEIRA FOTO JUNTOS</div>
       <div class="item-inventario item-3">💕 [LVL 3] PRIMEIRO ENCONTRO</div>
       <div class="item-inventario item-4">🦇 [MAX] 9 MESES DE SOMA </div>
@@ -406,21 +470,24 @@ footer {
     </div>
 
     <div id="arena-jogo">
-      <div id="coracao-luiza">❤️</div>
+      <div class="nuvem-retro">☁</div>
+      <div id="coracao-luiza">❤</div>
       <div id="player-batman">👦🏻</div>
     </div>
 
+    <div class="dica-teclado">🎮 USE AS SETAS DO TECLADO (◀ / ▶) PARA MOVER</div>
+
     <div class="controles-mobile">
-      <button class="btn-controle" id="btn-esq">◀️</button>
-      <button class="btn-controle" id="btn-dir">▶️</button>
+      <button class="btn-controle" id="btn-esq">◀</button>
+      <button class="btn-controle" id="btn-dir">▶</button>
     </div>
 
-    <div class="bloco-pixel" style="border-color: #ff4757; padding: 10px; margin-bottom: 15px; max-width: 340px;">
+    <div class="bloco-pixel" style="border-color: #ff4757; padding: 10px; margin-bottom: 15px; max-width: 400px;">
       <h2 style="color: #ff4757; font-size: 0.55rem; margin-bottom: 5px;">🎵 BGM SOUNDTRACK</h2>
       <p class="texto-pixel-card" style="text-align: center; font-size: 0.45rem;">"Velha Infância" É A MÚSICA QUE ME FAZ PENSAR EM VOCÊ.</p>
     </div>
     
-    <footer>❤️ GAME OVER: LUIZA & ARTHUR ❤️</footer>
+    <footer>❤ GAME OVER: LUIZA & ARTHUR ❤</footer>
   </section>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -444,17 +511,22 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-// Ativação forçada no clique do botão de Start
 function liberarAudioEIniciar() {
   document.getElementById("btn-start-obrigatorio").style.display = "none";
-  document.getElementById("menu-inicial").style.display = "grid";
+  document.getElementById("subtitulo-ajuda").style.display = "none";
+  
+  const loading = document.getElementById("loading-container");
+  loading.style.display = "block";
   
   if (apiPronta && playerSite && playerSite.playVideo) {
     playerSite.playVideo();
   }
   
-  // Rola suavemente para a segunda fase automaticamente
-  window.location.hash = "tela2";
+  setTimeout(() => {
+    loading.style.display = "none";
+    document.getElementById("menu-inicial").style.display = "grid";
+    window.location.hash = "tela2"; 
+  }, 1500);
 }
 
 function iniciarMusicaSite() {
@@ -471,15 +543,15 @@ function trocarParaMusicaJogo() {
   }
 }
 
-// Sistema de monitoramento preciso usando IntersectionObserver (Sem bugs de rolagem)
+// Monitoramento Preciso de Telas
 const observerFase5 = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      exibindoEmojis = false; // Desliga a criação de emojis
-      document.getElementById("container-chuva-emojis").innerHTML = ""; // Limpa a tela na hora!
+      exibindoEmojis = false; 
+      document.getElementById("container-chuva-emojis").innerHTML = ""; 
       if (apiPronta) trocarParaMusicaJogo();
     } else {
-      exibindoEmojis = true; // Reativa os emojis se voltar para cima
+      exibindoEmojis = true; 
       if (apiPronta) iniciarMusicaSite();
     }
   });
@@ -487,7 +559,7 @@ const observerFase5 = new IntersectionObserver((entries) => {
 
 observerFase5.observe(document.getElementById("tela5"));
 
-// Contador Estilo Jogo Retro Original
+// Contador Dinâmico de Dias
 const inicio = new Date("2025-08-30");
 function atualizar(){
   const agora = new Date();
@@ -497,8 +569,8 @@ function atualizar(){
 }
 atualizar();
 
-// Chuva Temática Controlada pelo Novo Sistema Seguro
-const iconesPixel = ["🦇", "🎵", "🎶", "❤️", "⭐", "👾"];
+// Chuva Temática Retro
+const iconesPixel = ["🦇", "🎵", "🎶", "❤", "⭐", "👾"];
 const containerChuva = document.getElementById("container-chuva-emojis");
 
 function chuvaPixel(){
@@ -516,38 +588,61 @@ function chuvaPixel(){
 }
 setInterval(chuvaPixel, 350);
 
-// --- MECÂNICA DO MINI GAME ---
-let playerX = 140;
-let coracaoX = Math.random() * 270;
+// --- MECÂNICA AVANÇADA E RESPONSIVA DO MINI GAME ---
+let playerX = 170;
+let coracaoX = Math.random() * 340;
 let coracaoY = -30;
 let score = 0;
+let velocidadeQueda = 4.5;
 
 const player = document.getElementById("player-batman");
 const coracao = document.getElementById("coracao-luiza");
 const txtScore = document.getElementById("txt-score");
+const arena = document.getElementById("arena-jogo");
 
-document.getElementById("btn-esq").addEventListener("touchstart", (e) => { e.preventDefault(); mover(-25); });
-document.getElementById("btn-dir").addEventListener("touchstart", (e) => { e.preventDefault(); mover(25); });
-document.getElementById("btn-esq").addEventListener("click", () => mover(-25));
-document.getElementById("btn-dir").addEventListener("click", () => mover(25));
+// Sistema Adaptável Dinâmico (Lê a largura real da arena seja PC ou Celular)
+function obterLarguraMax() {
+  return arena.clientWidth - 40; 
+}
+
+// Suporte total a Teclados de PC e Notebooks (Setas Esquerda e Direita)
+window.addEventListener("keydown", (e) => {
+  if(e.key === "ArrowLeft" || e.key === "a" || e.key === "A") mover(-35);
+  if(e.key === "ArrowRight" || e.key === "d" || e.key === "D") mover(35);
+});
+
+// Controles para Mobile por Toque Contínuo / Toque Único Otimizados
+document.getElementById("btn-esq").addEventListener("touchstart", (e) => { e.preventDefault(); mover(-30); });
+document.getElementById("btn-dir").addEventListener("touchstart", (e) => { e.preventDefault(); mover(30); });
+document.getElementById("btn-esq").addEventListener("click", () => mover(-30));
+document.getElementById("btn-dir").addEventListener("click", () => mover(30));
 
 function mover(dir) {
   playerX += dir;
+  const limiteMax = obterLarguraMax();
   if(playerX < 0) playerX = 0;
-  if(playerX > 290) playerX = 290;
+  if(playerX > limiteMax) playerX = limiteMax;
   player.style.left = playerX + "px";
 }
 
 function gameLoop() {
-  coracaoY += 4;
-  if(coracaoY > 240) {
+  coracaoY += velocidadeQueda;
+  if(coracaoY > 280) {
     resetCoracao();
   }
   
-  if(coracaoY >= 180 && coracaoY <= 210) {
-    if(Math.abs(coracaoX - playerX) < 30) {
+  // Colisão Otimizada e mais justa para as caixas pixeladas
+  if(coracaoY >= 210 && coracaoY <= 245) {
+    if(Math.abs(coracaoX - playerX) < 35) {
       score++;
       txtScore.innerHTML = "SCORE: " + (score < 10 ? "0" + score : score);
+      
+      // Feedback Visual de Coleta (Animação de brilho e pulo no Boneco)
+      player.classList.add("captura-anim");
+      setTimeout(() => player.classList.remove("captura-anim"), 200);
+      
+      // Aumenta a velocidade progressivamente para dar mais emoção!
+      velocidadeQueda = 4.5 + (score * 0.25); 
       resetCoracao();
     }
   }
@@ -559,12 +654,11 @@ function gameLoop() {
 
 function resetCoracao() {
   coracaoY = -30;
-  coracaoX = Math.random() * 270;
+  coracaoX = Math.random() * obterLarguraMax();
 }
 
 gameLoop();
 </script>
 
 </body>
-  </html>
-  
+</html>
