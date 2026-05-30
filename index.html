@@ -53,15 +53,6 @@ section {
   50%, 100% { opacity: 0; }
 }
 
-@keyframes tremerBotao {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
-  100% { transform: translate(0, 0); }
-}
-
 @keyframes flutuarPixel {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -214,7 +205,7 @@ section {
 .item-1 { border-color: #ff4757; }
 .item-2 { border-color: #ff9f43; }
 .item-3 { border-color: #38ef7d; }
-.item-4 { border-color: #050508; }
+.item-4 { border-color: #ffdb15; }
 
 /* Setas de Pular Fase */
 .seta-pixel {
@@ -230,25 +221,35 @@ section {
   color: #0a0b10;
 }
 
-/* --- INTERFACE E BOTÕES DO MINI GAME --- */
+/* --- INTERFACE E DESIGN DA ARENA DO MINI GAME --- */
 #arena-jogo {
   width: 100%;
   max-width: 340px;
   height: 240px;
-  background: #111218;
+  background: #0a0c16;
   border: 6px solid #ff4757;
   position: relative;
   overflow: hidden;
   box-shadow: 6px 6px 0px #000000;
   margin-bottom: 15px;
+  /* Fundo de Cidade Retrô/Gotham desenhado em Gradiente */
+  background-image: 
+    linear-gradient(to top, rgba(20, 24, 43, 0.95) 25px, transparent 25px),
+    linear-gradient(90deg, transparent 40px, #1c2035 40px, #1c2035 85px, transparent 85px),
+    linear-gradient(90deg, transparent 120px, #151828 120px, #151828 180px, transparent 180px),
+    linear-gradient(90deg, transparent 220px, #1c2035 220px, #1c2035 280px, transparent 280px),
+    radial-gradient(circle at 40px 40px, #fff 2px, transparent 3px),
+    radial-gradient(circle at 180px 70px, #fff 2px, transparent 3px),
+    radial-gradient(circle at 280px 30px, #fff 1px, transparent 2px);
 }
 
 #player-batman {
   font-size: 28px;
   position: absolute;
-  bottom: 10px;
+  bottom: 12px;
   left: 140px;
   transition: left 0.05s linear;
+  z-index: 10;
 }
 
 #coracao-luiza {
@@ -256,6 +257,7 @@ section {
   position: absolute;
   top: -30px;
   left: 50px;
+  z-index: 10;
 }
 
 .hud-jogo {
@@ -311,13 +313,22 @@ footer {
   padding: 8px;
   box-shadow: 4px 4px 0px #000000;
 }
+
+/* Esconder os players do YouTube na tela */
+.yt-invisivel {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
 </style>
 </head>
 
 <body>
 
-  <audio id="musica-site" loop src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-493.mp3"></audio>
-  <audio id="musica-jogo" loop src="https://assets.mixkit.co/music/preview/mixkit-game-level-music-611.mp3"></audio>
+  <div id="player-site-container" class="yt-invisivel"></div>
+  <div id="player-jogo-container" class="yt-invisivel"></div>
 
   <section class="fase-1">
     <div style="font-size: 45px; animation: flutuarPixel 2s infinite;">👾🎮</div>
@@ -377,7 +388,7 @@ footer {
 
     <div id="arena-jogo">
       <div id="coracao-luiza">❤️</div>
-      <div id="player-batman">🦇</div>
+      <div id="player-batman">👦🏻</div>
     </div>
 
     <div class="controles-mobile">
@@ -393,32 +404,53 @@ footer {
     <footer>❤️ GAME OVER: LUIZA & ARTHUR ❤️</footer>
   </section>
 
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
 // Controle dos Elementos de Som
-const somSite = document.getElementById("musica-site");
-const somJogo = document.getElementById("musica-jogo");
+let playerSite;
+let playerJogo;
+let apiPronta = false;
+let noJogo = false; // Controla se o usuário está na última tela
+
+function onYouTubeIframeAPIReady() {
+  playerSite = new YT.Player('player-site-container', {
+    videoId: 'Oms_v7vU_6Q', 
+    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'Oms_v7vU_6Q', 'controls': 0 },
+    events: { 'onReady': () => { apiPronta = true; } }
+  });
+
+  playerJogo = new YT.Player('player-jogo-container', {
+    videoId: 'M6M6N7m4q00', 
+    playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': 'M6M6N7m4q00', 'controls': 0 }
+  });
+}
 
 function iniciarMusicaSite() {
-  somJogo.pause();
-  somSite.play().catch(() => {});
+  if (apiPronta && playerSite && playerSite.playVideo) {
+    if(playerJogo && playerJogo.pauseVideo) playerJogo.pauseVideo();
+    playerSite.playVideo();
+  }
 }
 
 function trocarParaMusicaJogo() {
-  somSite.pause();
-  somJogo.play().catch(() => {});
+  if (apiPronta && playerJogo && playerJogo.playVideo) {
+    if(playerSite && playerSite.pauseVideo) playerSite.pauseVideo();
+    playerJogo.playVideo();
+  }
 }
 
-// Troca automática de trilha sonora conforme rola a tela
+// Troca automática de som e desligamento da chuva de emojis ao rolar
 window.addEventListener("scroll", () => {
   const metadeTela = window.innerHeight / 2;
   const topoFase5 = document.getElementById("tela5").getBoundingClientRect().top;
   
   if (topoFase5 <= metadeTela) {
-    trocarParaMusicaJogo();
+    noJogo = true; // Desliga os emojis caindo
+    if (apiPronta) trocarParaMusicaJogo();
   } else {
-    if(!somSite.paused || !somJogo.paused) {
-      iniciarMusicaSite();
-    }
+    noJogo = false; // Ativa os emojis novamente nas outras telas
+    if (apiPronta && (!playerSite.paused || !playerJogo.paused)) iniciarMusicaSite();
   }
 });
 
@@ -432,9 +464,11 @@ function atualizar(){
 }
 atualizar();
 
-// Chuva Temática Dinâmica
+// Chuva Temática Dinâmica (Interrompida na tela do mini-game)
 const iconesPixel = ["🦇", "🎵", "🎶", "❤️", "⭐", "👾"];
 function chuvaPixel(){
+  if (noJogo) return; // Se estiver na tela do jogo, não cria emojis novos caindo!
+  
   const p = document.createElement("div");
   p.classList.add("pixel-solto");
   p.innerHTML = iconesPixel[Math.floor(Math.random() * iconesPixel.length)];
@@ -472,12 +506,12 @@ function mover(dir) {
 
 // Loop de Processamento do Jogo
 function gameLoop() {
-  coracaoY += 4; // Gravidade/Velocidade da queda
+  coracaoY += 4; // Velocidade da queda do coração
   if(coracaoY > 240) {
     resetCoracao();
   }
   
-  // Colisão de Caixas de Pixels (Batman captura Coração)
+  // Colisão: Menino captura Coração
   if(coracaoY >= 180 && coracaoY <= 210) {
     if(Math.abs(coracaoX - playerX) < 30) {
       score++;
