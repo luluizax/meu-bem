@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <title>Para o Meu Coração ❤️</title>
 
 <style>
-/* Reset Moderno e Sistema de Pular Telas */
+/* Reset e Sistema de Slides Inteiros (Scroll Snap) */
 *{
   margin: 0;
   padding: 0;
@@ -15,7 +15,7 @@
 }
 
 html, body {
-  background: #0d0e12;
+  background: #0b0c10;
   color: #f3f4f6;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
@@ -23,253 +23,285 @@ html, body {
   height: 100vh;
 }
 
-/* Configuração de cada "Tela" do site */
+/* Cada section vira uma tela única e colorida que pula */
 section {
   height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 30px 20px;
+  padding: 40px 24px;
   scroll-snap-align: start;
   position: relative;
+  overflow: hidden;
 }
 
-/* Animação Suave */
-@keyframes aparecer {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Cores de Fundo Estilo Lego Batman */
+.tela-preta { background: #0f1015; }
+.tela-grafite { background: #181a21; }
+.tela-amarela { background: #ffdb15; color: #0f1015; }
+.tela-escura-azul { background: #0b111e; }
+
+/* Animações Fofas */
+@keyframes flutuar {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
 
-.animar {
-  animation: aparecer 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes pulsarBloco {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.03); }
 }
 
-/* Tela Inicial (Hero) */
-.hero {
-  background: linear-gradient(rgba(13, 14, 18, 0.85), rgba(13, 14, 18, 0.95)),
-              url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1200');
-  background-size: cover;
-  background-position: center;
-}
-
-.hero h1 {
-  font-size: 2.5rem;
+/* Elementos Visuais */
+.bat-titulo {
+  font-size: 2.6rem;
   color: #ffdb15;
-  text-shadow: 0 4px 20px rgba(255, 219, 21, 0.3);
-  font-weight: 800;
+  text-shadow: 0 4px 20px rgba(255, 219, 21, 0.4);
+  font-weight: 900;
+  text-align: center;
+  margin-bottom: 15px;
+  animation: pulsarBloco 1.5s infinite alternate ease-in-out;
+}
+
+.bat-titulo-escuro {
+  font-size: 2.6rem;
+  color: #0f1015;
+  font-weight: 900;
+  text-align: center;
   margin-bottom: 15px;
 }
 
-.hero p {
-  font-size: 1.1rem;
+.subtitulo {
+  font-size: 1.15rem;
+  color: #9ca3af;
+  text-align: center;
   max-width: 500px;
   line-height: 1.6;
-  color: #9ca3af;
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
-/* Bat-Sinal */
-.batsignal {
-  font-size: 80px;
-  margin-bottom: 10px;
-  animation: puloFofo 0.6s infinite alternate cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.subtitulo-escuro {
+  font-size: 1.15rem;
+  color: #2d3748;
+  text-align: center;
+  max-width: 400px;
+  line-height: 1.6;
+  margin-bottom: 35px;
 }
 
-@keyframes puloFofo {
-  from { transform: translateY(0) scale(1); }
-  to { transform: translateY(-15px) scale(1.05); }
+/* O Bat-Sinal flutuando */
+.batsignal-fofo {
+  font-size: 90px;
+  margin-bottom: 20px;
+  display: inline-block;
+  animation: flutuar 3s infinite ease-in-out;
 }
 
-/* Cards Estilo Lego */
-.card {
+/* Cards de Bloco Lego */
+.bloco-lego {
   background: #1c1e24;
   width: 100%;
-  max-width: 450px;
+  max-width: 420px;
   padding: 30px 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
-              0 0 0 2px rgba(255, 219, 21, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  border-bottom: 6px solid #ffdb15;
   text-align: center;
 }
 
-.card h2 {
-  color: #ffdb15;
-  font-size: 1.6rem;
-  margin-bottom: 20px;
-  font-weight: 700;
-}
-
-/* Foto */
-.foto-container {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.foto {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid #ffdb15;
-  box-shadow: 0 8px 24px rgba(255, 219, 21, 0.2);
-}
-
-/* Contador */
-.contador {
+.texto-card {
   font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 25px;
-  color: #ffdb15;
-  background: rgba(255, 219, 21, 0.1);
-  padding: 8px 16px;
-  border-radius: 50px;
-  display: inline-block;
-}
-
-.frase {
-  font-size: 1.05rem;
-  line-height: 1.7;
+  line-height: 1.8;
   color: #e5e7eb;
 }
 
-/* Conquistas */
-.conquista-item {
+/* Foto Redonda Fofa */
+.avatar-borda {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  border: 6px solid #ffdb15;
+  box-shadow: 0 8px 30px rgba(255, 219, 21, 0.3);
+  overflow: hidden;
+  margin-bottom: 25px;
+  animation: flutuar 3.5s infinite ease-in-out;
+}
+
+.avatar-borda img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Contador */
+.tag-contador {
+  background: #ffdb15;
+  color: #0f1015;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  box-shadow: 0 5px 15px rgba(255, 219, 21, 0.3);
+}
+
+/* Badges de Conquistas Coloridas */
+.badge-lego {
   background: #252830;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-weight: 500;
-  border-left: 4px solid #ffdb15;
+  gap: 15px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-align: left;
+  border-left: 5px solid #ffdb15;
 }
 
-/* Botões */
-.botao {
+.badge-lego:nth-child(1) { border-left-color: #ff4757; } 
+.badge-lego:nth-child(2) { border-left-color: #2ed573; } 
+.badge-lego:nth-child(3) { border-left-color: #1e90ff; } 
+.badge-lego:nth-child(4) { border-left-color: #ffa502; } 
+
+/* Botão Avançar */
+.botao-avancar {
   display: inline-block;
-  padding: 14px 28px;
+  padding: 15px 32px;
   background: #ffdb15;
-  color: #0d0e12;
+  color: #0f1015;
   border-radius: 50px;
-  font-weight: 700;
+  font-weight: 800;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(255, 219, 21, 0.4);
-  transition: transform 0.2s;
+  font-size: 1.05rem;
+  box-shadow: 0 6px 20px rgba(255, 219, 21, 0.4);
 }
 
-.botao:active {
+.botao-avancar:active {
   transform: scale(0.95);
 }
 
-.seta-rolar {
-  margin-top: 20px;
+.setinha-pular {
+  position: absolute;
+  bottom: 25px;
+  font-size: 1.8rem;
   color: #ffdb15;
-  font-size: 1.5rem;
   text-decoration: none;
-  animation: quicar 1s infinite alternate;
+  animation: quicarSeta 0.8s infinite alternate;
 }
 
-@keyframes quicar {
+.setinha-escura {
+  color: #0f1015;
+}
+
+@keyframes quicarSeta {
   from { transform: translateY(0); }
-  to { transform: translateY(10px); }
+  to { transform: translateY(8px); }
 }
 
-/* Morcegos */
-.bat {
+/* Chuva de morcegos */
+.bat-fofo {
   position: fixed;
   top: -20px;
   font-size: 20px;
   pointer-events: none;
-  animation: cair linear forwards;
+  animation: cairGirar linear forwards;
   z-index: 999;
 }
 
-@keyframes cair {
+@keyframes cairGirar {
   to { transform: translateY(105vh) rotate(360deg); }
 }
 
 footer {
-  position: absolute;
-  bottom: 20px;
-  color: #6b7280;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffdb15;
+  background: #0f1015;
+  padding: 8px 18px;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 </style>
 </head>
 
 <body>
 
-  <audio src="COLOQUE_O_LINK_AQUI" autoplay loop controls style="display:none;"></audio>
-
-  <section class="hero">
-    <div class="batsignal">🦇</div>
-    <h1 class="animar">Para o Meu Coração ❤️</h1>
-    <p class="animar">Há 9 meses você entrou na minha vida e transformou dias comuns em momentos especiais.</p>
-    <a href="#tela2" class="botao animar">Entrar na Nossa História</a>
+  <section class="tela-preta">
+    <div class="batsignal-fofo">🦇</div>
+    <h1 class="bat-titulo">Para o Meu Coração ❤️</h1>
+    <p class="subtitulo">Há 9 meses você entrou na minha vida e transformou dias comuns em momentos especiais.</p>
+    <a href="#tela2" class="botao-avancar">Entrar na Nossa História</a>
   </section>
 
-  <section id="tela2">
-    <div class="foto-container">
-      <img class="foto" src="IMG_20260530_121147.jpg">
+  <section class="tela-grafite" id="tela2">
+    <div class="avatar-borda">
+      <img src="IMG_20260530_121147.jpg" alt="Nossa Foto">
     </div>
-    <div class="contador" id="contador"></div>
-    
-    <div class="card">
+    <div class="tag-contador" id="contador"></div>
+    <a href="#tela3" class="setinha-pular">👇</a>
+  </section>
+
+  <section class="tela-escura-azul" id="tela3">
+    <div class="bloco-lego">
       <h2>🖤 Meu lindo</h2>
-      <p class="frase">
+      <br>
+      <p class="texto-card">
         Entre todas as aventuras possíveis, a melhor continua sendo viver essa com você.
         <br><br>
         Você não precisa de uma capa para ser o herói da minha história.
         <br><br>
-        Obrigada por cada conversa, abraço e sorriso que compartilhamos. Meu coração encontrou em você um lugar para se sentir em casa.
+        Obrigada por cada conversa, cada abraço, cada sorriso e cada momento que compartilhamos.
+        <br><br>
+        Meu coração encontrou em você um lugar onde se sente em casa.
+        <br><br>
+        E se eu pudesse escolher novamente, escolheria você. ❤️
       </p>
     </div>
-    <a href="#tela3" class="seta-rolar">👇</a>
+    <a href="#tela4" class="setinha-pular">👇</a>
   </section>
 
-  <section id="tela3">
-    <div class="card">
-      <h2>🏆 Conquistas Desbloqueadas</h2>
-      <div class="conquista-item">❤️ Primeiro encontro</div>
-      <div class="conquista-item">📸 Primeira foto juntos</div>
-      <div class="conquista-item">💕 Primeiro beijo</div>
-      <div class="conquista-item">🦇 9 meses de aventura</div>
+  <section class="tela-amarela" id="tela4">
+    <h1 class="bat-titulo-escuro">🏆 Conquistas Desbloqueadas</h1>
+    <p class="subtitulo-escuro" style="margin-bottom: 25px;">Nossas marcas registradas!</p>
+    
+    <div style="width: 100%; max-width: 420px;">
+      <div class="badge-lego"><span>❤️</span> Primeiro encontro</div>
+      <div class="badge-lego"><span>📸</span> Primeira foto juntos</div>
+      <div class="badge-lego"><span>💕</span> Primeiro beijo</div>
+      <div class="badge-lego"><span>🦇</span> 9 meses de aventura</div>
     </div>
-    <a href="#tela4" class="seta-rolar">👇</a>
+    <a href="#tela5" class="setinha-pular setinha-escura">👇</a>
   </section>
 
-  <section id="tela4">
-    <div class="card" style="margin-bottom: 60px;">
+  <section class="tela-preta" id="tela5">
+    <div class="bloco-lego" style="margin-bottom: 40px;">
       <h2>🎵 Nossa Música</h2>
-      <p class="frase">"Velha Infância" sempre vai me lembrar de nós.</p>
+      <br>
+      <p class="texto-card">"Velha Infância" sempre vai me lembrar de nós.</p>
     </div>
     
-    <footer>❤️ Com amor, Luiza. TE AMOOOO ❤️</footer>
+    <footer>❤️ Com amor, Luiza ❤️</footer>
   </section>
 
 <script>
+// Seu Contador Original
 const inicio = new Date("2025-08-30");
 function atualizar(){
   const agora = new Date();
   const diff = agora - inicio;
   const dias = Math.floor(diff / (1000*60*60*24));
-  document.getElementById("contador").innerHTML = "🦇 Aventura ativa há " + dias + " dias ❤️";
+  document.getElementById("contador").innerHTML = "🦇 Estamos escrevendo esta aventura há " + dias + " dias ❤️";
 }
 atualizar();
 
-function morcego(){
+// Chuva de Morceguinhos Fofos
+function criarMorcego(){
   const b = document.createElement("div");
-  b.classList.add("bat");
+  b.classList.add("bat-fofo");
   b.innerHTML="🦇";
   b.style.left = Math.random() * 100 + "vw";
   b.style.animationDuration = (Math.random() * 3 + 4) + "s";
@@ -277,13 +309,7 @@ function morcego(){
   document.body.appendChild(b);
   setTimeout(() => { b.remove(); }, 7000);
 }
-setInterval(morcego, 600);
-
-// Forçar o áudio a tocar no celular assim que o usuário interagir
-document.addEventListener('click', () => {
-  const audio = document.querySelector('audio');
-  if(audio) audio.play();
-}, { once: true });
+setInterval(criarMorcego, 500);
 </script>
 
 </body>
