@@ -6,276 +6,285 @@
 <title>Para o Meu Coração ❤️</title>
 
 <style>
-
+/* Reset Moderno e Sistema de Pular Telas */
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-body{
-background:#0a0a0a;
-color:white;
-overflow-x:hidden;
-text-align:center;
+html, body {
+  background: #0d0e12;
+  color: #f3f4f6;
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
 }
 
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-padding:20px;
-background:
-linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
-url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1200');
-background-size:cover;
-background-position:center;
+/* Configuração de cada "Tela" do site */
+section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  scroll-snap-align: start;
+  position: relative;
 }
 
-.hero h1{
-font-size:3rem;
-color:#ffd54f;
-text-shadow:0 0 20px #ffd54f;
-animation:brilho 2s infinite alternate;
+/* Animação Suave */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@keyframes brilho{
-from{opacity:.7;}
-to{opacity:1;}
+.animar {
+  animation: aparecer 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.hero p{
-margin-top:20px;
-font-size:1.2rem;
-max-width:600px;
+/* Tela Inicial (Hero) */
+.hero {
+  background: linear-gradient(rgba(13, 14, 18, 0.85), rgba(13, 14, 18, 0.95)),
+              url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1200');
+  background-size: cover;
+  background-position: center;
 }
 
-.batsignal{
-font-size:90px;
-margin-bottom:20px;
-animation:pulse 2s infinite;
+.hero h1 {
+  font-size: 2.5rem;
+  color: #ffdb15;
+  text-shadow: 0 4px 20px rgba(255, 219, 21, 0.3);
+  font-weight: 800;
+  margin-bottom: 15px;
 }
 
-@keyframes pulse{
-50%{transform:scale(1.1);}
+.hero p {
+  font-size: 1.1rem;
+  max-width: 500px;
+  line-height: 1.6;
+  color: #9ca3af;
+  margin-bottom: 30px;
 }
 
-.section{
-padding:60px 20px;
+/* Bat-Sinal */
+.batsignal {
+  font-size: 80px;
+  margin-bottom: 10px;
+  animation: puloFofo 0.6s infinite alternate cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.card{
-background:#171717;
-margin:auto;
-max-width:700px;
-padding:25px;
-border-radius:25px;
-box-shadow:0 0 20px rgba(255,213,79,.25);
+@keyframes puloFofo {
+  from { transform: translateY(0) scale(1); }
+  to { transform: translateY(-15px) scale(1.05); }
 }
 
-.foto{
-width:90%;
-max-width:400px;
-border-radius:25px;
-border:4px solid #ffd54f;
-margin:25px auto;
-display:block;
-box-shadow:0 0 30px rgba(255,213,79,.5);
+/* Cards Estilo Lego */
+.card {
+  background: #1c1e24;
+  width: 100%;
+  max-width: 450px;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 
+              0 0 0 2px rgba(255, 219, 21, 0.1);
+  text-align: center;
 }
 
-.contador{
-font-size:1.4rem;
-font-weight:bold;
-margin-top:20px;
-color:#ffd54f;
+.card h2 {
+  color: #ffdb15;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  font-weight: 700;
 }
 
-.frase{
-font-size:1.3rem;
-line-height:1.8;
-margin-top:20px;
+/* Foto */
+.foto-container {
+  position: relative;
+  margin-bottom: 20px;
 }
 
-footer{
-padding:40px;
-color:#ffd54f;
+.foto {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #ffdb15;
+  box-shadow: 0 8px 24px rgba(255, 219, 21, 0.2);
 }
 
-.bat{
-position:fixed;
-top:-20px;
-font-size:20px;
-animation:cair linear forwards;
+/* Contador */
+.contador {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #ffdb15;
+  background: rgba(255, 219, 21, 0.1);
+  padding: 8px 16px;
+  border-radius: 50px;
+  display: inline-block;
 }
 
-@keyframes cair{
-to{
-transform:translateY(110vh);
-}
-}
-
-.botao{
-display:inline-block;
-margin-top:30px;
-padding:15px 25px;
-background:#ffd54f;
-color:black;
-border-radius:30px;
-font-weight:bold;
-text-decoration:none;
+.frase {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #e5e7eb;
 }
 
+/* Conquistas */
+.conquista-item {
+  background: #252830;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 500;
+  border-left: 4px solid #ffdb15;
+}
+
+/* Botões */
+.botao {
+  display: inline-block;
+  padding: 14px 28px;
+  background: #ffdb15;
+  color: #0d0e12;
+  border-radius: 50px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(255, 219, 21, 0.4);
+  transition: transform 0.2s;
+}
+
+.botao:active {
+  transform: scale(0.95);
+}
+
+.seta-rolar {
+  margin-top: 20px;
+  color: #ffdb15;
+  font-size: 1.5rem;
+  text-decoration: none;
+  animation: quicar 1s infinite alternate;
+}
+
+@keyframes quicar {
+  from { transform: translateY(0); }
+  to { transform: translateY(10px); }
+}
+
+/* Morcegos */
+.bat {
+  position: fixed;
+  top: -20px;
+  font-size: 20px;
+  pointer-events: none;
+  animation: cair linear forwards;
+  z-index: 999;
+}
+
+@keyframes cair {
+  to { transform: translateY(105vh) rotate(360deg); }
+}
+
+footer {
+  position: absolute;
+  bottom: 20px;
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
 </style>
 </head>
 
 <body>
 
-<section class="hero">
+  <audio src="COLOQUE_O_LINK_AQUI" autoplay loop controls style="display:none;"></audio>
 
-<div class="batsignal">🦇</div>
+  <section class="hero">
+    <div class="batsignal">🦇</div>
+    <h1 class="animar">Para o Meu Coração ❤️</h1>
+    <p class="animar">Há 9 meses você entrou na minha vida e transformou dias comuns em momentos especiais.</p>
+    <a href="#tela2" class="botao animar">Entrar na Nossa História</a>
+  </section>
 
-<h1>Para o Meu Coração ❤️</h1>
+  <section id="tela2">
+    <div class="foto-container">
+      <img class="foto" src="IMG_20260530_121147.jpg">
+    </div>
+    <div class="contador" id="contador"></div>
+    
+    <div class="card">
+      <h2>🖤 Meu lindo</h2>
+      <p class="frase">
+        Entre todas as aventuras possíveis, a melhor continua sendo viver essa com você.
+        <br><br>
+        Você não precisa de uma capa para ser o herói da minha história.
+        <br><br>
+        Obrigada por cada conversa, abraço e sorriso que compartilhamos. Meu coração encontrou em você um lugar para se sentir em casa.
+      </p>
+    </div>
+    <a href="#tela3" class="seta-rolar">👇</a>
+  </section>
 
-<p>
-Há 9 meses você entrou na minha vida e transformou dias comuns em momentos especiais.
-</p>
+  <section id="tela3">
+    <div class="card">
+      <h2>🏆 Conquistas Desbloqueadas</h2>
+      <div class="conquista-item">❤️ Primeiro encontro</div>
+      <div class="conquista-item">📸 Primeira foto juntos</div>
+      <div class="conquista-item">💕 Primeiro beijo</div>
+      <div class="conquista-item">🦇 9 meses de aventura</div>
+    </div>
+    <a href="#tela4" class="seta-rolar">👇</a>
+  </section>
 
-<a href="#inicio" class="botao">
-Entrar na Nossa História
-</a>
-
-</section>
-
-<section class="section" id="inicio">
-
-<img class="foto" src="IMG_20260530_121147.jpg">
-
-<div class="contador" id="contador"></div>
-
-<div class="card">
-
-<h2>🖤 Meu lindo</h2>
-
-<p class="frase">
-
-Entre todas as aventuras possíveis,
-a melhor continua sendo viver essa com você.
-
-<br><br>
-
-Você não precisa de uma capa para ser o herói da minha história.
-
-<br><br>
-
-Obrigada por cada conversa,
-cada abraço,
-cada sorriso
-e cada momento que compartilhamos.
-
-<br><br>
-
-Meu coração encontrou em você um lugar onde se sente em casa.
-
-<br><br>
-
-E se eu pudesse escolher novamente,
-escolheria você.
-
-❤️
-
-</p>
-
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="card">
-
-<h2>🏆 Conquistas Desbloqueadas</h2>
-
-<br>
-
-<p>❤️ Primeiro encontro</p>
-<p>📸 Primeira foto juntos</p>
-<p>💕 Primeiro beijo</p>
-<p>🦇 9 meses de aventura</p>
-
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="card">
-
-<h2>🎵 Nossa Música</h2>
-
-<br>
-
-<p>
-"Velha Infância" sempre vai me lembrar de nós.
-</p>
-
-</div>
-
-</section>
-
-<footer>
-
-❤️ Com amor, Luiza ❤️
-
-</footer>
+  <section id="tela4">
+    <div class="card" style="margin-bottom: 60px;">
+      <h2>🎵 Nossa Música</h2>
+      <p class="frase">"Velha Infância" sempre vai me lembrar de nós.</p>
+    </div>
+    
+    <footer>❤️ Com amor, Luiza. TE AMOOOO ❤️</footer>
+  </section>
 
 <script>
-
 const inicio = new Date("2025-08-30");
-
 function atualizar(){
-
-const agora = new Date();
-
-const diff = agora - inicio;
-
-const dias = Math.floor(diff / (1000*60*60*24));
-
-document.getElementById("contador").innerHTML =
-"🦇 Estamos escrevendo esta aventura há " +
-dias +
-" dias ❤️";
-
+  const agora = new Date();
+  const diff = agora - inicio;
+  const dias = Math.floor(diff / (1000*60*60*24));
+  document.getElementById("contador").innerHTML = "🦇 Aventura ativa há " + dias + " dias ❤️";
 }
-
 atualizar();
 
 function morcego(){
-
-const b = document.createElement("div");
-
-b.classList.add("bat");
-
-b.innerHTML="🦇";
-
-b.style.left=Math.random()*100+"vw";
-
-b.style.animationDuration=
-(Math.random()*4+5)+"s";
-
-document.body.appendChild(b);
-
-setTimeout(()=>{
-b.remove();
-},9000);
-
+  const b = document.createElement("div");
+  b.classList.add("bat");
+  b.innerHTML="🦇";
+  b.style.left = Math.random() * 100 + "vw";
+  b.style.animationDuration = (Math.random() * 3 + 4) + "s";
+  b.style.fontSize = (Math.random() * 15 + 15) + "px";
+  document.body.appendChild(b);
+  setTimeout(() => { b.remove(); }, 7000);
 }
+setInterval(morcego, 600);
 
-setInterval(morcego,500);
-
+// Forçar o áudio a tocar no celular assim que o usuário interagir
+document.addEventListener('click', () => {
+  const audio = document.querySelector('audio');
+  if(audio) audio.play();
+}, { once: true });
 </script>
 
 </body>
-  </html>
+</html>
