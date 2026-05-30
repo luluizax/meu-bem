@@ -1,9 +1,11 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para o Meu Coração ❤️</title>
+<title>Batman 8-Bit Quest ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 /* Reset e Sistema de Slides Inteiros (Scroll Snap) */
@@ -11,19 +13,20 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Press Start 2P', monospace, sans-serif; /* Forçando tudo em Pixel */
 }
 
 html, body {
-  background: #0b0c10;
-  color: #f3f4f6;
+  background: #050508;
+  color: #ffffff;
   scroll-behavior: smooth;
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
   height: 100vh;
+  image-rendering: pixelated; /* Efeito que deixa imagens e bordas pixeladas */
 }
 
-/* Telas em formato de Slide */
+/* Telas em formato de Fases de Jogo */
 section {
   height: 100vh;
   width: 100vw;
@@ -31,230 +34,254 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 40px 24px;
+  padding: 20px;
   scroll-snap-align: start;
   position: relative;
   overflow: hidden;
 }
 
-/* Paleta de Cores Lego Batman + Elementos de Música */
-.tela-preta { background: #0c0d12; }
-.tela-grafite { background: #16181f; }
-.tela-amarela { background: #ffdb15; color: #0f1015; }
-.tela-escura-azul { background: #090e1a; }
+/* Fundo das Fases com Cores Neon de Fase do Batman */
+.fase-1 { background: #0a0b10; border: 8px solid #ffdb15; }
+.fase-2 { background: #12141c; border: 8px solid #38ef7d; }
+.fase-3 { background: #080f1d; border: 8px solid #00d2ff; }
+.fase-4 { background: #ffdb15; color: #0a0b10; border: 8px solid #0a0b10; }
+.fase-5 { background: #0f051d; border: 8px solid #ff4757; }
 
-/* Animações Fofas de Ritmo e Vibração */
-@keyframes pulsarRitmo {
+/* --- SUPER ANIMAÇÕES PIXEL ART --- */
+@keyframes piscarStart {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes tremerBotao {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes flutuarPixel {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes puloCaixa {
   0% { transform: scale(1); }
-  50% { transform: scale(1.04); }
+  30% { transform: scale(1.03) translateY(-4px); }
+  70% { transform: scale(0.98); }
   100% { transform: scale(1); }
 }
 
-@keyframes flutuarNota {
-  0% { transform: translateY(0px) cubic-bezier(0.45, 0, 0.55, 1); }
-  50% { transform: translateY(-10px) cubic-bezier(0.45, 0, 0.55, 1); }
-  100% { transform: translateY(0px) cubic-bezier(0.45, 0, 0.55, 1); }
-}
-
-/* Títulos e Identidade */
-.bat-titulo {
-  font-size: 2.5rem;
+/* Títulos Estilo Arcade */
+.titulo-arcade {
+  font-size: 1.4rem;
   color: #ffdb15;
-  text-shadow: 0 0 15px rgba(255, 219, 21, 0.5);
-  font-weight: 900;
+  text-shadow: 4px 4px #000000;
   text-align: center;
-  margin-bottom: 12px;
-  animation: pulsarRitmo 2s infinite ease-in-out;
+  margin-bottom: 20px;
+  line-height: 1.4;
 }
 
-.bat-titulo-escuro {
-  font-size: 2.5rem;
-  color: #0f1015;
-  font-weight: 900;
+.titulo-arcade-escuro {
+  font-size: 1.3rem;
+  color: #0a0b10;
+  text-shadow: 3px 3px #ffffff;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-.subtitulo {
-  font-size: 1.1rem;
+.subtitulo-pixel {
+  font-size: 0.65rem;
   color: #9ca3af;
   text-align: center;
-  max-width: 450px;
-  line-height: 1.6;
-  margin-bottom: 35px;
-}
-
-.subtitulo-escuro {
-  font-size: 1.1rem;
-  color: #1f2937;
-  text-align: center;
-  max-width: 400px;
-  line-height: 1.6;
-  margin-bottom: 35px;
-}
-
-/* Ícone de Destaque */
-.bat-fone {
-  font-size: 85px;
-  margin-bottom: 15px;
-  display: inline-block;
-  animation: flutuarNota 2.5s infinite ease-in-out;
-}
-
-/* Blocos Lego estilo Caixa de Som/Palco */
-.bloco-musical {
-  background: #1b1d24;
-  width: 100%;
-  max-width: 420px;
-  padding: 32px 25px;
-  border-radius: 24px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(255, 219, 21, 0.15);
-  border-bottom: 6px solid #ffdb15;
-  text-align: center;
-}
-
-.texto-card {
-  font-size: 1.08rem;
+  max-width: 90%;
   line-height: 1.8;
-  color: #e5e7eb;
+  margin-bottom: 30px;
 }
 
-/* Avatar com Borda de Neon Amarelo */
-.avatar-borda {
-  width: 185px;
-  height: 185px;
-  border-radius: 50%;
-  border: 5px solid #ffdb15;
-  box-shadow: 0 0 25px rgba(255, 219, 21, 0.4);
+.subtitulo-pixel-escuro {
+  font-size: 0.65rem;
+  color: #2d3748;
+  text-align: center;
+  max-width: 90%;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+/* Painel de Controle / Vários Botões Pixel */
+.menu-botoes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 20px;
+}
+
+.btn-pixel {
+  background: #222530;
+  color: #ffffff;
+  padding: 12px 8px;
+  font-size: 0.6rem;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
+  border: 4px solid #ffffff;
+  box-shadow: 4px 4px 0px #000000;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Cores vibrantes individuais para cada botão */
+.btn-fase2 { border-color: #38ef7d; color: #38ef7d; }
+.btn-fase3 { border-color: #00d2ff; color: #00d2ff; }
+.btn-fase4 { border-color: #ffdb15; color: #ffdb15; }
+.btn-fase5 { border-color: #ff4757; color: #ff4757; }
+
+.btn-pixel:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0px 0px 0px #000000;
+  animation: tremerBotao 0.2s infinite;
+}
+
+/* Blocos de Texto e Cards Pixelados */
+.bloco-pixel {
+  background: #14161f;
+  width: 100%;
+  max-width: 360px;
+  padding: 24px 16px;
+  border: 6px solid #ffdb15;
+  box-shadow: 6px 6px 0px #000000;
+  text-align: center;
+  animation: puloCaixa 2.5s infinite ease-in-out;
+}
+
+.texto-pixel-card {
+  font-size: 0.58rem;
+  line-height: 2;
+  color: #ffffff;
+  text-align: justify;
+}
+
+/* Foto com Moldura de Bloco de Console Retrô */
+.foto-pixel-moldura {
+  width: 160px;
+  height: 160px;
+  border: 6px dashed #38ef7d;
+  box-shadow: 6px 6px 0px #000000;
   overflow: hidden;
   margin-bottom: 25px;
-  animation: flutuarNota 3s infinite ease-in-out;
+  animation: flutuarPixel 2s infinite ease-in-out;
+  background: #000;
 }
 
-.avatar-borda img {
+.foto-pixel-moldura img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Contador */
-.tag-contador {
-  background: #ffdb15;
-  color: #0f1015;
-  font-weight: 800;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-size: 1.05rem;
-  box-shadow: 0 5px 20px rgba(255, 219, 21, 0.4);
-  letter-spacing: 0.5px;
+/* Tag de Score / Placar de pontos (Contador) */
+.placar-score {
+  background: #000000;
+  color: #38ef7d;
+  border: 4px solid #38ef7d;
+  font-weight: bold;
+  padding: 12px;
+  font-size: 0.65rem;
+  box-shadow: 4px 4px 0px rgba(0,0,0,0.5);
+  animation: piscarStart 1.5s infinite alternate;
 }
 
-/* Conquistas em Faixas Musicais */
-.badge-musica {
-  background: #23262f;
-  padding: 14px 18px;
-  border-radius: 14px;
+/* Conquistas Estilo Inventário de Itens do Jogo */
+.item-inventario {
+  background: #12141c;
+  padding: 12px;
+  border: 4px solid #00a8ff;
   margin-bottom: 12px;
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-weight: 600;
-  font-size: 1.05rem;
+  gap: 12px;
+  font-size: 0.55rem;
   text-align: left;
-  border-left: 5px solid #ffdb15;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 4px 4px 0px #000000;
 }
 
-.badge-musica:nth-child(1) { border-left-color: #ff4757; } 
-.badge-musica:nth-child(2) { border-left-color: #ff9f43; } 
-.badge-musica:nth-child(3) { border-left-color: #2ed573; } 
-.badge-musica:nth-child(4) { border-left-color: #1e90ff; } 
+/* Border color overrides for list items */
+.item-1 { border-color: #ff4757; }
+.item-2 { border-color: #ff9f43; }
+.item-3 { border-color: #38ef7d; }
+.item-4 { border-color: #ffdb15; }
 
-/* Botão de Avanço */
-.botao-avancar {
-  display: inline-block;
-  padding: 15px 35px;
-  background: #ffdb15;
-  color: #0f1015;
-  border-radius: 50px;
-  font-weight: 800;
-  text-decoration: none;
-  font-size: 1.05rem;
-  box-shadow: 0 6px 22px rgba(255, 219, 21, 0.4);
-  letter-spacing: 0.5px;
-}
-
-.botao-avancar:active {
-  transform: scale(0.95);
-}
-
-.setinha-pular {
+/* Setas de Pular Fase */
+.seta-pixel {
   position: absolute;
-  bottom: 25px;
-  font-size: 1.8rem;
+  bottom: 15px;
+  font-size: 1.2rem;
   color: #ffdb15;
   text-decoration: none;
-  animation: quicarSeta 0.8s infinite alternate;
+  animation: piscarStart 0.6s infinite alternate;
 }
 
-.setinha-escura {
-  color: #0f1015;
+.seta-escura {
+  color: #0a0b10;
 }
 
-@keyframes quicarSeta {
-  from { transform: translateY(0); }
-  to { transform: translateY(8px); }
-}
-
-/* Elementos caindo: Morcegos e Notas Musicais */
-.chuva-elemento {
+/* Chuva Customizada de Pixels */
+.pixel-solto {
   position: fixed;
   top: -20px;
   pointer-events: none;
-  animation: quedaLenta linear forwards;
+  animation: quedaPixel linear forwards;
   z-index: 999;
+  font-size: 14px;
 }
 
-@keyframes quedaLenta {
-  to { transform: translateY(105vh) rotate(360deg); }
+@keyframes quedaPixel {
+  to { transform: translateY(105vh); }
 }
 
 footer {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #ffdb15;
-  background: #16181f;
-  padding: 10px 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,219,21,0.2);
+  font-size: 0.55rem;
+  color: #ff4757;
+  background: #000000;
+  border: 3px solid #ff4757;
+  padding: 8px;
+  box-shadow: 4px 4px 0px #000000;
 }
 </style>
 </head>
 
 <body>
 
-  <section class="tela-preta">
-    <div class="bat-fone">🎧🦇</div>
-    <h1 class="bat-titulo">Para o Meu Coração ❤️</h1>
-    <p class="subtitulo">Há 9 meses você entrou na minha vida e transformou dias comuns em momentos especiais.</p>
-    <a href="#tela2" class="botao-avancar">Entrar na Nossa História</a>
+  <section class="fase-1">
+    <div style="font-size: 45px; animation: flutuarPixel 2s infinite;">👾🎮</div>
+    <h1 class="titulo-arcade">BATMAN 8-BIT<br><span style="color:#ffdb15;">LOVE QUEST</span></h1>
+    <p class="subtitulo-pixel">Há 9 meses você entrou na minha vida e transformou dias comuns em momentos especiais.</p>
+    
+    <div class="menu-botoes">
+      <a href="#tela2" class="btn-pixel btn-fase2">[1] Ver Nosso Placar</a>
+      <a href="#tela3" class="btn-pixel btn-fase3">[2] Ler Minha Mensagem</a>
+      <a href="#tela4" class="btn-pixel btn-fase4">[3] Ver Conquistas</a>
+      <a href="#tela5" class="btn-pixel btn-fase5">[4] Trilha Sonora</a>
+    </div>
   </section>
 
-  <section class="tela-grafite" id="tela2">
-    <div class="avatar-borda">
+  <section class="fase-2" id="tela2">
+    <div class="foto-pixel-moldura">
       <img src="IMG_20260530_121147.jpg" alt="Nossa Foto">
     </div>
-    <div class="tag-contador" id="contador"></div>
-    <a href="#tela3" class="setinha-pular">👇</a>
+    <div class="placar-score" id="contador">SCORE: 0000000</div>
+    <a href="#tela3" class="seta-pixel" style="color: #38ef7d;">👇 NEXT FASE</a>
   </section>
 
-  <section class="tela-escura-azul" id="tela3">
-    <div class="bloco-musical">
-      <h2>🖤 Meu lindo</h2>
-      <br>
-      <p class="texto-card">
+  <section class="fase-3" id="tela3">
+    <div class="bloco-pixel">
+      <h2 style="color: #00d2ff; font-size: 0.8rem; margin-bottom: 12px;">PLAYER 1: LUIZA</h2>
+      <p class="texto-pixel-card">
         Entre todas as aventuras possíveis, a melhor continua sendo viver essa com você.
         <br><br>
         Obrigada por cada conversa, cada abraço, cada sorriso e cada momento que compartilhamos.
@@ -264,67 +291,61 @@ footer {
         E se eu pudesse escolher novamente, escolheria você. ❤️
       </p>
     </div>
-    <a href="#tela4" class="setinha-pular">👇</a>
+    <a href="#tela4" class="seta-pixel" style="color: #00d2ff;">👇 NEXT FASE</a>
   </section>
 
-  <section class="tela-amarela" id="tela4">
-    <h1 class="bat-titulo-escuro">🏆 Conquistas Desbloqueadas</h1>
-    <p class="subtitulo-escuro" style="margin-bottom: 25px;">Nossa sintonia perfeita em blocos!</p>
+  <section class="fase-4" id="tela4">
+    <h1 class="titulo-arcade-escuro">🏆 ITEMS UNLOCKED</h1>
+    <p class="subtitulo-pixel-escuro">Coleção Completa de Conquistas de Amor!</p>
     
-    <div style="width: 100%; max-width: 420px;">
-      <div class="badge-musica"><span>❤️</span> Primeiro encontro</div>
-      <div class="badge-musica"><span>🎸</span> Primeira foto juntos</div>
-      <div class="badge-musica"><span>💕</span> Primeiro beijo</div>
-      <div class="badge-musica"><span>🎶</span> 9 meses de aventura</div>
+    <div style="width: 100%; max-width: 350px;">
+      <div class="item-inventario item-1">❤️ [LVL 1] PRIMEIRO ENCONTRO</div>
+      <div class="item-inventario item-2">📸 [LVL 2] PRIMEIRA FOTO JUNTOS</div>
+      <div class="item-inventario item-3">💕 [LVL 3] PRIMEIRO BEIJO</div>
+      <div class="item-inventario item-4">🦇 [MAX] 9 MESES DE AVENTURA</div>
     </div>
-    <a href="#tela5" class="setinha-pular setinha-escura">👇</a>
+    <a href="#tela5" class="seta-pixel seta-escura">👇 FINAL FASE</a>
   </section>
 
-  <section class="tela-preta" id="tela5">
-    <div class="bloco-musical" style="margin-bottom: 40px;">
-      <h2>🎵 Nossa Música</h2>
-      <br>
-      <p class="texto-card">"Velha Infância" sempre vai me lembrar de nós.</p>
+  <section class="fase-5" id="tela5">
+    <div class="bloco-pixel" style="border-color: #ff4757; margin-bottom: 30px;">
+      <h2 style="color: #ff4757; font-size: 0.75rem; margin-bottom: 12px;">🎵 BGM SOUNDTRACK</h2>
+      <p class="texto-pixel-card" style="text-align: center;">"Velha Infância" sempre vai me lembrar de nós.</p>
     </div>
     
-    <footer>❤️ Com amor, Luiza ❤️</footer>
+    <footer>❤️ GAME OVER: LUIZA & BATMAN ❤️</footer>
   </section>
 
 <script>
-// Contador de Dias
+// Contador Estilo Jogo Retro
 const inicio = new Date("2025-08-30");
 function atualizar(){
   const agora = new Date();
   const diff = agora - inicio;
   const dias = Math.floor(diff / (1000*60*60*24));
-  document.getElementById("contador").innerHTML = "🎵 Sintonia ativa há " + dias + " dias 🖤";
+  document.getElementById("contador").innerHTML = "SINTONIA: " + dias + " DIAS UP! 🖤";
 }
 atualizar();
 
-// Chuva Dinâmica de Morcegos e Notas Musicais
-const elementos = ["🦇", "🎵", "🎶", "🎧"];
+// Chuva Temática Totalmente Customizada e Muito Animada (Gira Itens Clássicos de Jogo)
+const iconesPixel = ["🦇", "🎵", "🎶", "❤️", "⭐", "👾"];
 
-function criarChuva(){
-  const b = document.createElement("div");
-  b.classList.add("chuva-elemento");
+function chuvaPixel(){
+  const p = document.createElement("div");
+  p.classList.add("pixel-solto");
+  p.innerHTML = iconesPixel[Math.floor(Math.random() * iconesPixel.length)];
   
-  // Escolhe aleatoriamente entre morcego ou notas musicais
-  b.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
+  p.style.left = Math.random() * 100 + "vw";
+  p.style.animationDuration = (Math.random() * 2 + 3) + "s"; // Quedas bem dinâmicas e rápidas
   
-  b.style.left = Math.random() * 100 + "vw";
-  b.style.animationDuration = (Math.random() * 3 + 4) + "s";
-  b.style.fontSize = (Math.random() * 16 + 14) + "px";
+  // Cores de Neon Retro para combinar com os enfeites
+  const coresArcade = ["#ffdb15", "#38ef7d", "#00d2ff", "#ff4757", "#ffffff"];
+  p.style.color = coresArcade[Math.floor(Math.random() * coresArcade.length)];
   
-  // Se for nota musical, dá uma corzinha neon suave
-  if(b.innerHTML !== "🦇") {
-    const coresNeon = ["#ffdb15", "#ff4757", "#2ed573", "#1e90ff"];
-    b.style.color = coresNeon[Math.floor(Math.random() * coresNeon.length)];
-  }
-  
-  document.body.appendChild(b);
-  setTimeout(() => { b.remove(); }, 7000);
+  document.body.appendChild(p);
+  setTimeout(() => { p.remove(); }, 5000);
 }
-setInterval(criarChuva, 450); // Chuva um pouquinho mais ritmada e cheia
+setInterval(chuvaPixel, 350); // Frequência rápida para ficar super enfeitado!
 </script>
 
 </body>
